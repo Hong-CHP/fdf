@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 15:54:40 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/29 11:40:37 by hporta-c         ###   ########.fr       */
+/*   Created: 2025/05/29 11:39:44 by hporta-c          #+#    #+#             */
+/*   Updated: 2025/05/29 11:40:02 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "get_next_line.h"
+#include "fdf.h"
 
-# include "get_next_line.h"
-
-typedef struct s_list
+int	ft_atoi(const char *str)
 {
-	t_point point;
-	struct s_list *next;
-}				t_list;
+	int	nb;
+	int	flag;
 
-typedef struct s_point
-{
-	int	x;
-	int	y;
-	int	z;
-	int color;
-}				t_point;
-
-int		ft_atoi(const char *str);
-char	**ft_split(char	const *s);
-
-#endif
+	nb = 0;
+	flag = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			flag *= -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		nb = nb * 10;
+		nb = nb + (*str - '0');
+		str++;
+	}
+	return (nb * flag);
+}

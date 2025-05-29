@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:15:09 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/28 16:11:50 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:10:12 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,17 @@ char	*allo_init_buf(int fd, char **dest, int buffer_size)
 	return (*dest);
 }
 
-char	*get_next_line(int fd, int buffer_size)
+char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*rest;
 	char		*temp;
 	static char	*dest;
+	int	buffer_size;
 
-	if (fd < 0 || fd >= 1024 || buffer_size <= 0)
+	if (fd < 0 || fd >= 1024)
 		return (NULL);
+	buffer_size = 5;
 	temp = allo_init_buf(fd, &dest, buffer_size);
 	if (!temp)
 		return (NULL);
