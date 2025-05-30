@@ -6,12 +6,14 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:16:09 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/29 11:40:31 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/05/30 09:41:11 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
+# include "fdf.h"
 
 # include <stdio.h>
 # include <fcntl.h>

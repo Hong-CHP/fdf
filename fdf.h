@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:40 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/29 11:40:37 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/05/30 09:41:24 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define FDF_H
 
 # include "get_next_line.h"
-
-typedef struct s_list
-{
-	t_point point;
-	struct s_list *next;
-}				t_list;
 
 typedef struct s_point
 {
@@ -31,5 +25,8 @@ typedef struct s_point
 
 int		ft_atoi(const char *str);
 char	**ft_split(char	const *s);
+int		count_lines(char *file);
+t_point	**recup_points_data(int fd, int height);
+
 
 #endif
