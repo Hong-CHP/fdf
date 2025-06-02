@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 09:35:54 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/30 11:04:17 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:09:19 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,26 @@ int	count_cols(char **line_split)
 	return (count);
 }
 
-void	fill_map(t_point **map, char **line_split, int y, int width)
+void	fill_map(t_point **map, char **line_split, int y, int *width)
 {
 	int i;
     
-    map[y] = malloc(sizeof(t_point) * width);
+    map[y] = malloc(sizeof(t_point) * *width);
 	if (!map[y])
 		return ;
 	i = 0;
-	while (i < width)
+	while (i < *width)
 	{
 		map[y][i].x = i;
 		map[y][i].y = y;
 		map[y][i].z = ft_atoi(line_split[i]);
 		i++;
 	}
-
 }
 
-t_point	**recup_points_data(int fd, int height)
+t_point	**recup_points_data(int fd, int height, int *width)
 {
 	int	y;
-    int width;
 	t_point **map;
 	char	*line;
 	char	**line_split;
@@ -94,7 +92,7 @@ t_point	**recup_points_data(int fd, int height)
 	while (line && y < height)
 	{
 		line_split = ft_split(line);
-        width = count_cols(line_split);
+        *width = count_cols(line_split);
 		fill_map(map, line_split, y, width);
         free_split(line_split);
 		free(line);

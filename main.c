@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:57 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/05/30 11:03:13 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:09:44 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ void    ft_display_file(char *file)
 	t_point	**map;
 	//malloc in func need to be free at last of program
 	int	height;
+	int	width;
 	
 	height = count_lines(file);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return ;
-	map = recup_points_data(fd, height);
+	map = recup_points_data(fd, height, &width);
+	projection_3d_to_screen(map, height, width);
 	free_map(map, height);
     close(fd);
 }
