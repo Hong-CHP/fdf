@@ -6,12 +6,11 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:38:45 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/02 11:53:55 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:27:16 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <math.h>
 
 double  deg_to_rad(void)
 {

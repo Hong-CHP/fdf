@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:40 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/02 11:36:26 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:27:33 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FDF_H
 
 # include "get_next_line.h"
+# include <math.h>
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 800
 
@@ -34,12 +35,24 @@ typedef struct s_vue
 	double radian;
 }				t_vue;
 
+typedef struct s_data
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*add;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}				t_data;
+
 int		ft_atoi(const char *str);
 int		ft_min(int a, int b);
 char	**ft_split(char	const *s);
 int		count_lines(char *file);
 t_point	**recup_points_data(int fd, int height, int *width);
 void    projection_3d_to_screen(t_point **map, int height, int width);
+void    draw_img(t_data *img_data);
 
 
 #endif
