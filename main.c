@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:57 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/02 17:05:47 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:53:40 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_map(t_point **map, int height)
 	map = NULL;
 }
 
-void    ft_display_file(char *file)
+void    ft_display_file(char *file, t_data *img_data)
 {   
     int fd;
 	t_point	**map;
@@ -42,6 +42,7 @@ void    ft_display_file(char *file)
 		return ;
 	map = recup_points_data(fd, height, &width);
 	projection_3d_to_screen(map, height, width);
+	draw_map(img_data, map, height, width);
 	free_map(map, height);
     close(fd);
 }
@@ -54,18 +55,25 @@ int main(int argc, char *argv[])
     if (argc != 2)
         return (1);
     file = argv[1];
-    ft_display_file(file);
+	img_data = malloc(sizeof(t_data));
+	if (!img_data)
+		return (1);
 	img_data->mlx = mlx_init();
     if (!img_data->mlx)
         return (1);
     img_data->win = mlx_new_window(img_data->mlx, 1000, 800, "fdf");
     if (!img_data->win)
 	{
-		mlx_destroy_window(img_data->mlx, img_data->win);
+		mlx_destroy_display(img_data->mlx);
 		free(img_data->mlx);
+		free(img_data);
         return (1);
 	}
-	draw_img(img_data);
+	ft_display_file(file, img_data);
     mlx_loop(img_data->mlx);
+	mlx_destroy_window(img_data->mlx, img_data->win);
+    mlx_destroy_display(img_data->mlx);
+    free(img_data->mlx);
+	free(img_data);
     return (0);
 }
