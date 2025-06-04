@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:57 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/03 17:53:40 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:04:23 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,76 @@
 #include "fdf.h"
 #include "mlx.h"
 
-void	free_map(t_point **map, int height)
+void	free_map(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < height)
+	while (i < data->height)
 	{
-		free(map[i]);
+		free(data->map[i]);
 		i++;
 	}
-	free(map);
-	map = NULL;
+	free(data->map);
+	data->map = NULL;
 }
 
-void    ft_display_file(char *file, t_data *img_data)
+//malloc in func recup_points_data need to be free at last of program
+void    ft_display_file_and_draw(char *file, t_data *data)
 {   
     int fd;
-	t_point	**map;
-	//malloc in func need to be free at last of program
-	int	height;
-	int	width;
-	
-	height = count_lines(file);
+
+	data->height = count_lines(file);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return ;
-	map = recup_points_data(fd, height, &width);
-	projection_3d_to_screen(map, height, width);
-	draw_map(img_data, map, height, width);
-	free_map(map, height);
+	{
+		clean_all(data);
+		exit(1);
+	}
+	data->map = recup_points_data(fd, data);
+	if (data->height < 2 && data->width < 2)
+	{
+		clean_all(data);
+		close(fd);
+		exit(1);
+	}
+	data->new = projection_3d_to_res(data);
+	data->img = mlx_new_image(data->mlx, WIN_W, WIN_H);
+    data->add = mlx_get_data_addr(data->img, &data->bpp, &data->line_len, &data->endian);
+	draw_bgc(data);
+	draw_map(data);
     close(fd);
+}
+
+void	init_window(t_data *img_data)
+{
+	img_data->mlx = mlx_init();
+    if (!img_data->mlx)
+        return ;
+    img_data->win = mlx_new_window(img_data->mlx, WIN_W, WIN_H, "fdf");
+    if (!img_data->win)
+	{
+		mlx_destroy_display(img_data->mlx);
+		free(img_data->mlx);
+		free(img_data);
+        return ;
+	}
+}
+
+void	clean_all(t_data *data)
+{
+	if (data->img)
+		mlx_destroy_image(data->mlx, data->img);
+	if (data->win)
+		mlx_destroy_window(data->mlx, data->win);
+	if (data->map)
+		free_map(data);
+	if (data->mlx)
+	{
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+	}
+	free(data);
 }
 
 int main(int argc, char *argv[])
@@ -58,22 +97,9 @@ int main(int argc, char *argv[])
 	img_data = malloc(sizeof(t_data));
 	if (!img_data)
 		return (1);
-	img_data->mlx = mlx_init();
-    if (!img_data->mlx)
-        return (1);
-    img_data->win = mlx_new_window(img_data->mlx, 1000, 800, "fdf");
-    if (!img_data->win)
-	{
-		mlx_destroy_display(img_data->mlx);
-		free(img_data->mlx);
-		free(img_data);
-        return (1);
-	}
-	ft_display_file(file, img_data);
-    mlx_loop(img_data->mlx);
-	mlx_destroy_window(img_data->mlx, img_data->win);
-    mlx_destroy_display(img_data->mlx);
-    free(img_data->mlx);
-	free(img_data);
+	init_window(img_data);
+	ft_display_file_and_draw(file, img_data);
+	add_event_listener(img_data);
+	clean_all(img_data);
     return (0);
 }

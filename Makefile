@@ -6,7 +6,7 @@
 #    By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 14:53:49 by hporta-c          #+#    #+#              #
-#    Updated: 2025/06/03 17:47:25 by hporta-c         ###   ########.fr        #
+#    Updated: 2025/06/04 17:56:34 by hporta-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ LDFLAGS = -L. -lmlx -lXext -lX11 -lm
 INCLUDES = -I.
 
 SRCS = get_next_line.c get_next_line_utils.c ft_split.c projection.c \
-		recup_pos_fill_map.c utils.c main.c draw_map.c
+		recup_pos_fill_map.c utils.c main.c draw_map.c ev_listener.c \
+		mlx_utils.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
