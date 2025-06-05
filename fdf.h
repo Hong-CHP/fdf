@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:40 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/04 18:14:05 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:13:03 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_point
 	int	z;
 	int res_x;
 	int res_y;
+	int	res_z;
+	int	color;
 }				t_point;
 
 typedef struct s_vue
@@ -57,11 +59,14 @@ typedef struct s_data
 int		ft_atoi(const char *str);
 int		ft_min(int a, int b);
 int		ft_abs(int nb);
-int     get_color(int z, t_vue *new);
+int     get_color(t_point *point, t_vue *new);
 char	**ft_split(char	const *s);
 int		count_lines(char *file);
 t_point	**recup_points_data(int fd, t_data *data);
+void	if_color(t_point *point, char *str);
+int	ft_gradient(int s_color, int e_color, double percent);
 void	find_z_max_min_val(t_data *data, t_vue *new);
+t_vue	isometric_project(t_data *data);
 t_vue    projection_3d_to_res(t_data *data);
 void put_pixel(t_data *data, int x, int y, int color);
 void    draw_bgc(t_data *data);

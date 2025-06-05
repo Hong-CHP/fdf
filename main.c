@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:54:57 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/04 18:04:23 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:16:37 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_map(t_data *data)
 }
 
 //malloc in func recup_points_data need to be free at last of program
+// isometric_project(data);
 void    ft_display_file_and_draw(char *file, t_data *data)
 {   
     int fd;
@@ -41,12 +42,13 @@ void    ft_display_file_and_draw(char *file, t_data *data)
 		exit(1);
 	}
 	data->map = recup_points_data(fd, data);
-	if (data->height < 2 && data->width < 2)
+	if ((data->height < 2 && data->width < 2) || !data->map)
 	{
 		clean_all(data);
 		close(fd);
 		exit(1);
 	}
+	// data->new = isometric_project(data);
 	data->new = projection_3d_to_res(data);
 	data->img = mlx_new_image(data->mlx, WIN_W, WIN_H);
     data->add = mlx_get_data_addr(data->img, &data->bpp, &data->line_len, &data->endian);

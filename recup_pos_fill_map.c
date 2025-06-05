@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 09:35:54 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/04 12:49:44 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:41:26 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ void	fill_map(t_point **map, char **line_split, int y, int width)
 	{
 		map[y][i].x = i;
 		map[y][i].y = y;
-		map[y][i].z = ft_atoi(line_split[i]);
+		if_color(&map[y][i], line_split[i]);
+		if (!line_split[i])
+			map[y][i].z = 0;
+		else
+			map[y][i].z = ft_atoi(line_split[i]);
 		i++;
 	}
 }
@@ -83,27 +87,27 @@ t_point	**recup_points_data(int fd, t_data *data)
 	t_point **map;
 	char	*line;
 	char	**line_split;
+	int		expected_w;
 
 	map = (t_point **)malloc(data->height * sizeof(t_point *));
 	if (!map)
 		return (NULL);
 	y = 0;
+	expected_w = -1;
 	line = get_next_line(fd);
 	while (line && y < data->height)
 	{
 		line_split = ft_split(line);
         data->width = count_cols(line_split);
+		if (expected_w == -1)
+			expected_w = data->width;
+		else if (data->width != expected_w)
+			data->width = expected_w;
 		fill_map(map, line_split, y, data->width);
         free_split(line_split);
 		free(line);
         line = get_next_line(fd);
 		y++;
 	}
-    // for (int j = 0; j < y; j++)
-	// {
-	// 	for (int i = 0; i < width; i++)
-	// 		printf("(%d,%d,%d) ", map[j][i].x, map[j][i].y, map[j][i].z);
-	// 	printf("\n");
-	// }
 	return (map);
 }
